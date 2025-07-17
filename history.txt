@@ -1,0 +1,50 @@
+PLAN9	1987	;	Start Dev.	Development start
+PLAN9	1989	;	Use at BL	Productive use at Bell Labs
+PLAN9	1992	;	1st ed.	Exclusive to Universities (BL)
+PLAN9	1995	;	2nd ed.	350$ (BL)
+PLAN9	2000	June 7	3rd ed.	Brazil (Lucent)
+PLAN9	2014	February	GPL
+PLAN9	2021	March	P9F, MIT	Plan 9 Foundation
+INFERNO	1996	;	Leak/Beta	Leaked by Dennis Ritchie
+INFERNO	1997	May	1.0	First Inferno release
+INFERNO	1999	July	2nd ed.
+INFERNO	2001	June	3rd ed.
+INFERNO	2004	;	4th ed.	Open Source, 9P2000
+9FRONT	2011	;	2 Rel.
+9FRONT	2012	;	16 Rel.
+9FRONT	2013	;	20 Rel.
+9FRONT	2014	;	9 Rel.
+9FRONT	2015	;	5 Rel.
+9FRONT	2016	;	8 Rel.
+9FRONT	2017	;	7 Rel.
+9FRONT	2018	;	4 Rel.
+9FRONT	2019	;	3 Rel.
+9FRONT	2020	;	2 Rel.
+9FRONT	2021	;	2 Rel.
+9FRONT	2022	;	2 Rel.
+9FRONT	2023	;	2 Rel.
+9FRONT	2024	;	1 Rel.
+9FRONT	2025	;	3 Rel.
+9LEGACY	2010	Summer	Birth
+9LEGACY	2011	June	Website
+9LEGACY	2025	;	Active
+P9P	2003	Sept. 30	First git commit (rsc)
+P9P	2025	;	Active
+NIX	2020	Nov. 21	Mark II and IV on github
+NIX	2012	;	Papers	Analyzing manycore OS design aspects in NIX; Nix: a case for a manycore system for cloud computing
+NIX	2011	;	Paper	High Performance Cloud Computing is Nix.
+9ATOM	2020	July 2	Github Snapshot	thanks, henesy
+HARVEY	2023	April 22	archived	github
+HARVEY	2022	April 18	last commit	github
+HARVEY	2010	July 27	first commit	github
+JEHANNE	2022	Jan. 6	leaving github	also last git commit
+JEHANNE	2015	Dec. 21	first commit
+NODE9	2020	Dec. 26	last commit
+NODE9	2015	May 21	first commit
+AKAROS	2015	;	Paper	OS and Runtime Support for Efficiently Managing Cores in Parallel Applications
+AKAROS	2014	;	Paper	Operating System Support for Parallel Processes
+AKAROS	2011	;	Paper	Improving Per-Node Efficiency in the Datacenter with New OS Abstractions
+PLANB	2007	;	Paper	Plan B: Using Files instead of Middleware Abstractions for Pervasive Computing Environments
+PLANB	2006	;	Paper	The Plan B OS for Ubiquitous Computing. ...
+PLANB	2004	April	2nd ed.	Plan B 2nd edition user's manual
+PLANB	2002	April	1st ed.	Plan B 1st edition user's manual
