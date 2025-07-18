@@ -1,6 +1,7 @@
 #!/bin/awk -F "\t" -f
 
 BEGIN {
+	# which row per system
 	height["PLAN9"] = 1
 	height["INFERNO"] = 2
 	height["9LEGACY"] = 3
@@ -15,20 +16,22 @@ BEGIN {
 	height["NODE9"] = 9
 	height["PLANB"] = 6
 	
-	lastx["PLAN9"] = -1
-	lastx["INFERNO"] = -1
-	lastx["9LEGACY"] = -1
-	lastx["9FRONT"] = -1
-	lastx["9ATOM"] = -1
-	lastx["HARVEY"] = -1
-	lastx["JEHANNE"] = -1
-	lastx["P9P"] = -1
-	lastx["9VX"] = -1
-	lastx["AKAROS"] = -1
-	lastx["NIX"] = -1
-	lastx["NODE9"] = -1
-	lastx["PLANB"] = -1
+	# classes, used for color coding
+	class["PLAN9"] = "plan9"
+	class["INFERNO"] = "inferno"
+	class["9LEGACY"] = "plan9"
+	class["9FRONT"] = "plan9"
+	class["9ATOM"] = "plan9"
+	class["HARVEY"] = "plan9"
+	class["JEHANNE"] = "plan9"
+	class["P9P"] = "misc"
+	class["9VX"] = "misc"
+	class["AKAROS"] = "inferno"
+	class["NIX"] = "plan9"
+	class["NODE9"] = "inferno"
+	class["PLANB"] = "plan9"
 	
+	# label per system
 	label["PLAN9"] = "Plan 9"
 	label["INFERNO"] = "Inferno"
 	label["9LEGACY"] = "9legacy"
@@ -43,24 +46,26 @@ BEGIN {
 	label["NODE9"] = "Node9"
 	label["PLANB"] = "Plan B"
 	
+	# additional parameters
 	stepheight = 80  # vertical line offset
-	yoffset = 15
-	xoffset = 40  # save some space at the beginning of the graph
-	xsave = 40    # save some space at the end of the graph
-	labeloffset = -3
-	lineheight = 10 # equals font size
-	stopheight = 3
+	yoffset = 15     # vertical offset from top
+	xoffset = 40     # save some space at the beginning of the graph
+	xsave = 40       # save some space at the end of the graph
+	labeloffset = -3 # offset for the system labels
+	lineheight = 10  # equals font size
+	stopheight = 3   # height of the small vertical event lines
 	
-	scalefrom = 1987
-	scaleto = 2025  # last date of events
-	size = 2000  # size of the graph
+	scalefrom = 1987 # first date of events
+	scaleto = 2025   # last date of events
+	size = 2000      # size of the graph
 	
 	titlefontsize = 15
 	
-	botcenter = size/2
-	botheight = 550
+	iboxsize = 20    # size of the interactive box
 	
-	iboxsize = 20 # size of the interactive box
+	####### code
+	for (i in height)
+		lastx[i] = -1
 	
 	range = size - xoffset - xsave  # size of the graph, minus offsets
 
@@ -70,7 +75,10 @@ BEGIN {
 	print "  <title>Plan 9 History</title>"
 	print "  <desc>Timeline of Plan 9 systems and their children</desc>"
 	print "  <style type=\"text/css\"><![CDATA["
-	print ".ibox { display: block; fill: transparent; stroke: none; outline: dotted 1px blue; }"
+	print ".ibox { display: block; fill: transparent; stroke: none; outline: dashed 1px #0000ff55; }"
+	print ".plan9 { stroke: blue; fill: blue; }"
+	print ".inferno { stroke: green; fill: green; }"
+	print ".misc { stroke: brown; fill: brown; }"
 	print "  ]]></style>"
 	print "  <script><![CDATA["
 	print "function openinfo(i) {"
@@ -92,8 +100,8 @@ function printline(text, step, h, line) {
 	printf "    <text x=\"%d\" y=\"%d\" stroke-width=\"0\">%s</text>\n", step+xoffset, h+labeloffset-line*lineheight, text
 }
 
-function dline(x1, y1, x2, y2) {
-	printf "    <line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" />\n", x1, y1, x2, y2
+function dline(x1, y1, x2, y2, cls) {
+	printf "    <line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" class=\"%s\" />\n", x1, y1, x2, y2, cls
 }
 
 function dibox(x, y, id) {
@@ -119,14 +127,15 @@ function getx(year) {
 	
 	currentstep = getx(year)
 	
-	h=height[type] * stepheight + yoffset
-	lx=lastx[type]
+	h = height[type] * stepheight + yoffset
+	lx = lastx[type]
 	tx = currentstep + xoffset
+	cls = class[type]
 	
 	if (lx >= 0) {
 		# line from lx to currentstep, label
-		dline(lx+xoffset, h, tx, h)
-		dline(tx, h, tx, h+stopheight)
+		dline(lx+xoffset, h, tx, h, cls)
+		dline(tx, h, tx, h+stopheight, cls)
 	}
 	# print labels
 	printline(year, currentstep, h, 0)
@@ -139,8 +148,8 @@ function getx(year) {
 	
 	if (lx < 0) {
 		# print line label and stop line
-		dline(tx, h, tx, h+stopheight)
-		printf "    <text x=\"%d\" y=\"%d\" stroke-width=\"0\" text-anchor=\"start\" font-weight=\"bold\">%s</text>\n", currentstep+xoffset, h-labeloffset+lineheight, label[type]
+		dline(tx, h, tx, h+stopheight, cls)
+		printf "    <text x=\"%d\" y=\"%d\" stroke-width=\"0\" text-anchor=\"start\" font-weight=\"bold\" class=\"%s\">%s</text>\n", currentstep+xoffset, h-labeloffset+lineheight, cls, label[type]
 	}
 	
 	lastx[type] = currentstep
