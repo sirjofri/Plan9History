@@ -1,22 +1,29 @@
 #!/bin/awk -F "\t" -f
 
+function getx(year) {
+	return (year - scalefrom) / (scaleto - scalefrom) * range
+}
+
 BEGIN {
 	# which row per system
-	height["PLAN9"] = 1
-	height["INFERNO"] = 2
-	height["9LEGACY"] = 3
-	height["9FRONT"] = 2
-	height["9ATOM"] = 4
-	height["HARVEY"] = 7
-	height["JEHANNE"] = 8
-	height["P9P"] = 5
-	height["9VX"] = 8
-	height["AKAROS"] = 10
-	height["NIX"] = 6
-	height["NODE9"] = 9
-	height["PLANB"] = 6
+	height["HIST"] = 1
+	height["PLAN9"] = 2
+	height["INFERNO"] = 3
+	height["9LEGACY"] = 4
+	height["9FRONT"] = 3
+	height["9ATOM"] = 5
+	height["HARVEY"] = 8
+	height["JEHANNE"] = 9
+	height["P9P"] = 6
+	height["9VX"] = 9
+	height["AKAROS"] = 11
+	height["NIX"] = 7
+	height["NODE9"] = 10
+	height["PLANB"] = 7
+	height["HPC"] = 9
 	
 	# classes, used for color coding
+	class["HIST"] = ""
 	class["PLAN9"] = "plan9"
 	class["INFERNO"] = "inferno"
 	class["9LEGACY"] = "plan9"
@@ -30,8 +37,10 @@ BEGIN {
 	class["NIX"] = "plan9"
 	class["NODE9"] = "inferno"
 	class["PLANB"] = "plan9"
+	class["HPC"] = "plan9"
 	
 	# label per system
+	label["HIST"] = "General History"
 	label["PLAN9"] = "Plan 9"
 	label["INFERNO"] = "Inferno"
 	label["9LEGACY"] = "9legacy"
@@ -45,6 +54,7 @@ BEGIN {
 	label["NIX"] = "NIX"
 	label["NODE9"] = "Node9"
 	label["PLANB"] = "Plan B"
+	label["HPC"] = "HPC"
 	
 	# additional parameters
 	stepheight = 80  # vertical line offset
@@ -67,6 +77,10 @@ BEGIN {
 	for (i in height)
 		lastx[i] = -1
 	
+	maxheight = 0
+	for (i in height)
+		maxheight = height[i] > maxheight ? height[i] : maxheight
+	
 	range = size - xoffset - xsave  # size of the graph, minus offsets
 
 	print "<svg xmlns=\"http://www.w3.org/2000/svg\""
@@ -76,9 +90,11 @@ BEGIN {
 	print "  <desc>Timeline of Plan 9 systems and their children</desc>"
 	print "  <style type=\"text/css\"><![CDATA["
 	print ".ibox { display: block; fill: transparent; stroke: none; outline: dashed 1px #0000ff55; }"
+	print ".stepgroup line { stroke-dasharray: 15; stroke: #00000022; }"
 	print ".plan9 { stroke: blue; fill: blue; }"
 	print ".inferno { stroke: green; fill: green; }"
 	print ".misc { stroke: brown; fill: brown; }"
+	print "text { font-family: sans-serif; }"
 	print "  ]]></style>"
 	print "  <script><![CDATA["
 	print "function openinfo(i) {"
@@ -91,6 +107,21 @@ BEGIN {
 	print "}"
 	print "  ]]></script>"
 	printf "  <text x=\"%d\" y=\"%d\" font-size=\"%d\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Plan 9 Timeline</text>", size/2, titlefontsize, titlefontsize
+	
+	print "  <g class=\"stepgroup\">"
+	for (i = scalefrom; i < scaleto+1; i++) {
+		x = xoffset + getx(i)
+		strokewidth = 1
+		if (i%10 == 0) {
+			strokewidth = 3
+		} else if (i%5 == 0) {
+			strokewidth = 2
+		}
+		miny = yoffset+titlefontsize
+		printf "  <line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke-width=\"%d\" />\n", x, miny, x, miny+maxheight*stepheight, strokewidth
+	}
+	print "  </g>"
+	
 	printf "  <g stroke=\"black\" stroke-width=\"1px\" font-size=\"%d\" text-anchor=\"middle\">\n", lineheight
 }
 
@@ -112,10 +143,6 @@ function dinfo(x, y, id, text) {
 	printf "    <g id=\"%s\" style=\"display:none;\">\n", id
 	printline(text, x, y, 3)
 	print "    </g>"
-}
-
-function getx(year) {
-	return (year - scalefrom) / (scaleto - scalefrom) * range
 }
 
 /^.+/ {
@@ -157,5 +184,7 @@ function getx(year) {
 
 END {
 	print "  </g>"
+	"git rev-parse --short HEAD" | getline hash; close("git rev-parse --short HEAD");
+	printf "  <text x=\"%d\" y=\"%d\" text-anchor=\"baseline\" font-size=\"12\">%s%s (%s)</text>\n", xoffset, yoffset+titlefontsize+maxheight*stepheight, "Build: ", strftime("%Y-%m-%d"), hash
 	print "</svg>"
 }

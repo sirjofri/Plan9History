@@ -1,3 +1,10 @@
+HIST	1987	;	Bell Labs
+HIST	1996	Sept. 30	Lucent Technologies Inc.
+HIST	2006	Dec. 1	Alcatel-Lucent S.A.	Alcatel SA acquired Lucent
+HIST	2014	;	Alcatel-Lucent split
+HIST	2016	;	BL @ Nokia	Nokia acquired Alcatel-Lucent
+HIST	2021	March	P9F	Plan 9 Foundation
+HIST	2025	;	Active
 PLAN9	1987	;	Start Dev.	Development start
 PLAN9	1989	;	Use at BL	Productive use at Bell Labs
 PLAN9	1992	;	1st ed.	Exclusive to Universities (BL)
@@ -37,6 +44,7 @@ NIX	2011	;	Paper	High Performance Cloud Computing is Nix.
 HARVEY	2023	April 22	archived	github
 HARVEY	2022	April 18	last commit	github
 HARVEY	2010	July 27	first commit	github
+HARVEY	2015	Feb. 1	first "real" commit	...probably
 JEHANNE	2022	Jan. 6	leaving github	also last git commit
 JEHANNE	2015	Dec. 21	first commit
 NODE9	2020	Dec. 26	last commit
@@ -48,3 +56,4 @@ PLANB	2007	;	Paper	Plan B: Using Files instead of Middleware Abstractions for Pe
 PLANB	2006	;	Paper	The Plan B OS for Ubiquitous Computing. ...
 PLANB	2004	April	2nd ed.	Plan B 2nd edition user's manual
 PLANB	2002	April	1st ed.	Plan B 1st edition user's manual
+HPC	2000	;	Setup at LANL	Setup of the centre
