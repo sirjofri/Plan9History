@@ -21,6 +21,9 @@ BEGIN {
 	height["NODE9"] = 10
 	height["PLANB"] = 7
 	height["HPC"] = 9
+	height["R9"] = 7
+	height["PURG"] = 11
+	height["OCTO"] = 11
 	
 	# classes, used for color coding
 	class["HIST"] = ""
@@ -38,23 +41,29 @@ BEGIN {
 	class["NODE9"] = "inferno"
 	class["PLANB"] = "plan9"
 	class["HPC"] = "plan9"
+	class["R9"] = "plan9"
+	class["PURG"] = "inferno"
+	class["OCTO"] = "inferno"
 	
 	# label per system
 	label["HIST"] = "General History"
 	label["PLAN9"] = "Plan 9"
 	label["INFERNO"] = "Inferno"
-	label["9LEGACY"] = "9legacy"
-	label["9FRONT"] = "9front"
-	label["9ATOM"] = "9atom"
+	label["9LEGACY"] = "9legacy : Plan 9"
+	label["9FRONT"] = "9front : Plan 9"
+	label["9ATOM"] = "9atom : Plan 9"
 	label["HARVEY"] = "Harvey OS"
-	label["JEHANNE"] = "Jehanne OS"
+	label["JEHANNE"] = "Jehanne OS : 9front, Harvey OS"
 	label["P9P"] = "Plan 9 from User Space"
 	label["9VX"] = "9vx"
 	label["AKAROS"] = "Akaros"
 	label["NIX"] = "NIX"
 	label["NODE9"] = "Node9"
-	label["PLANB"] = "Plan B"
+	label["PLANB"] = "Plan B : Plan 9"
 	label["HPC"] = "HPC"
+	label["R9"] = "R9 : Harvey OS"
+	label["PURG"] = "Purgatorio : Inferno"
+	label["OCTO"] = "Octopus : Plan B"
 	
 	# additional parameters
 	stepheight = 80  # vertical line offset
@@ -63,7 +72,7 @@ BEGIN {
 	xsave = 40       # save some space at the end of the graph
 	labeloffset = -3 # offset for the system labels
 	lineheight = 10  # equals font size
-	stopheight = 3   # height of the small vertical event lines
+	stopheight = 5   # height of the small vertical event lines
 	
 	scalefrom = 1987 # first date of events
 	scaleto = 2025   # last date of events
@@ -84,8 +93,7 @@ BEGIN {
 	range = size - xoffset - xsave  # size of the graph, minus offsets
 
 	print "<svg xmlns=\"http://www.w3.org/2000/svg\""
-	print "  width=\"500mm\" height=\"500mm\""
-	printf "  viewBox=\"0 0 %d 500\">", size
+	printf "  viewBox=\"0 0 %d %d\">", size, yoffset+titlefontsize+maxheight*stepheight
 	print "  <title>Plan 9 History</title>"
 	print "  <desc>Timeline of Plan 9 systems and their children</desc>"
 	print "  <style type=\"text/css\"><![CDATA["

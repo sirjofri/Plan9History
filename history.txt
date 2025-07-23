@@ -10,7 +10,9 @@ PLAN9	1989	;	Use at BL	Productive use at Bell Labs
 PLAN9	1992	;	1st ed.	Exclusive to Universities (BL)
 PLAN9	1995	;	2nd ed.	350$ (BL)
 PLAN9	2000	June 7	3rd ed.	Brazil (Lucent)
+PLAN9	2002	;	4th ed.
 PLAN9	2014	February	GPL
+PLAN9	2015	"early"	final release
 PLAN9	2021	March	P9F, MIT	Plan 9 Foundation
 INFERNO	1996	;	Leak/Beta	Leaked by Dennis Ritchie
 INFERNO	1997	May	1.0	First Inferno release
@@ -57,3 +59,5 @@ PLANB	2006	;	Paper	The Plan B OS for Ubiquitous Computing. ...
 PLANB	2004	April	2nd ed.	Plan B 2nd edition user's manual
 PLANB	2002	April	1st ed.	Plan B 1st edition user's manual
 HPC	2000	;	Setup at LANL	Setup of the centre
+R9	2022	May 26	Initial commit
+PURG	2018	Nov. 04	Initial git commit
