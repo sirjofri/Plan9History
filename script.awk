@@ -5,6 +5,8 @@ function getx(year) {
 }
 
 BEGIN {
+	debug = ENVIRON["debug"]
+
 	# which row per system
 	height["HIST"] = 1
 	height["PLAN9"] = 2
@@ -21,7 +23,7 @@ BEGIN {
 	height["NODE9"] = 10
 	height["PLANB"] = 7
 	height["HPC"] = 9
-	height["R9"] = 7
+	height["R9"] = 10
 	height["PURG"] = 11
 	height["OCTO"] = 11
 	
@@ -65,6 +67,23 @@ BEGIN {
 	label["PURG"] = "Purgatorio : Inferno"
 	label["OCTO"] = "Octopus : Plan B"
 	
+	parent["INFERNO"] = "PLAN9"
+	parent["9LEGACY"] = "PLAN9"
+	parent["9FRONT"] = "PLAN9"
+	parent["9ATOM"] = "PLAN9"
+	parent["HARVEY"] = "PLAN9"
+	parent["JEHANNE"] = "9FRONT"
+	parent["P9P"] = "PLAN9"
+	parent["9VX"] = "PLAN9"
+	parent["AKAROS"] = ""
+	parent["NIX"] = "PLAN9"
+	parent["NODE9"] = ""
+	parent["PLANB"] = "PLAN9"
+	parent["HPC"] = ""
+	parent["R9"] = "HARVEY"
+	parent["PURG"] = "INFERNO"
+	parent["OCTO"] = "PLANB"
+	
 	# additional parameters
 	stepheight = 80  # vertical line offset
 	yoffset = 15     # vertical offset from top
@@ -86,6 +105,9 @@ BEGIN {
 	for (i in height)
 		lastx[i] = -1
 	
+	for (i in height)
+		firstx[i] = -1
+	
 	maxheight = 0
 	for (i in height)
 		maxheight = height[i] > maxheight ? height[i] : maxheight
@@ -99,6 +121,7 @@ BEGIN {
 	print "  <style type=\"text/css\"><![CDATA["
 	print ".ibox { display: block; fill: transparent; stroke: none; outline: dashed 1px #0000ff55; }"
 	print ".stepgroup line { stroke-dasharray: 15; stroke: #00000022; }"
+	print ".inheritance { fill: none !important; stroke-dasharray: 5; stroke: #00000077; }"
 	print ".plan9 { stroke: blue; fill: blue; }"
 	print ".inferno { stroke: green; fill: green; }"
 	print ".misc { stroke: brown; fill: brown; }"
@@ -131,6 +154,14 @@ BEGIN {
 	print "  </g>"
 	
 	printf "  <g stroke=\"black\" stroke-width=\"1px\" font-size=\"%d\" text-anchor=\"middle\">\n", lineheight
+}
+
+$1 == "RANGE" {
+	min[$2] = $3
+	max[$2] = $4
+	if (debug)
+		printf "  <!-- range %s %s %s -->\n", $2, $3, $4
+	next
 }
 
 function printline(text, step, h, line) {
@@ -167,6 +198,31 @@ function dinfo(x, y, id, text) {
 	tx = currentstep + xoffset
 	cls = class[type]
 	
+	# draw inheritance line
+	parenth = height[parent[type]]
+	if (lx < 0 && parenth > 0) {
+		tpy = parenth * stepheight + yoffset  # target point y
+		cpy = (tpy + h) * 0.6   # control point y
+		if (cpy > h)
+			cpy = h
+		if (cpy < tpy)
+			cpy = tpy
+		
+		# calculated min/max for parent line
+		mn = getx(min[parent[type]])
+		mx = getx(max[parent[type]])
+		
+		xminusone = getx(year-0.7)
+		if (xminusone <= mx && xminusone >= mn) {
+			mx = xminusone
+		}
+		mx += xoffset
+		cpx = (mx + tx) * 0.5
+		printf "  <path d=\"M %d %d Q %d %d %d %d\" class=\"inheritance %s\" />\n", tx, h, cpx, cpy, mx, tpy, cls
+		if (debug)
+			printf "  <circle cx=\"%d\" cy=\"%d\" r=\"4\" />\n", cpx, cpy
+	}
+	
 	if (lx >= 0) {
 		# line from lx to currentstep, label
 		dline(lx+xoffset, h, tx, h, cls)
@@ -185,6 +241,7 @@ function dinfo(x, y, id, text) {
 		# print line label and stop line
 		dline(tx, h, tx, h+stopheight, cls)
 		printf "    <text x=\"%d\" y=\"%d\" stroke-width=\"0\" text-anchor=\"start\" font-weight=\"bold\" class=\"%s\">%s</text>\n", currentstep+xoffset, h-labeloffset+lineheight, cls, label[type]
+		firstx[type] = currentstep
 	}
 	
 	lastx[type] = currentstep
