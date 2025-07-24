@@ -25,13 +25,6 @@ BEGIN {
 	iboxsize = 20    # size of the interactive box
 	
 	####### code
-	for (i in height)
-		lastx[i] = -1
-	
-	for (i in height)
-		firstx[i] = -1
-	
-	# maxheight = ENVIRON["maxheight"]
 	
 	range = size - xoffset - xsave  # size of the graph, minus offsets
 
