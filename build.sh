@@ -27,5 +27,5 @@ END {
 }
 ' config.txt)
 
-cat $ranges <(sed 's/^/CONF\t/g' config.txt) <(sort -k 2 history.txt) | awk -v maxheight=$maxheight -F "\t" -f script.awk > output.svg
+cat $ranges <(sed 's/^/CONF\t/g' config.txt) <(sort -k 2 history.txt) | awk -v maxheight=$maxheight -F "\t" -f script.awk > plan9timeline.svg
 rm $ranges
