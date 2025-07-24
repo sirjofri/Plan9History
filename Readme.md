@@ -2,6 +2,8 @@
 
 This is a collection of the Plan 9 history and a script to build an interactive SVG timeline.
 
+The build result can be seen [here](https://sirjofri.de/oat/shared/plan9timeline.svg).
+
 ## Adding History
 
 The `history.txt` file is used as a database file.
@@ -44,3 +46,7 @@ Requirements are common posix tools: a shell, sort, awk, cat.
 ## Contributing History
 
 Many projects lack detailed information. Please add details if you know them.
+
+# Result
+
+![plan9timeline](https://sirjofri.de/oat/shared/plan9timeline.svg)
