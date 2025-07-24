@@ -1,0 +1,18 @@
+HIST	1			General History
+PLAN9	2	plan9		Plan 9
+INFERNO	3	inferno	PLAN9	Inferno
+9LEGACY	4	plan9	PLAN9	9legacy : Plan 9
+9FRONT	3	plan9	PLAN9	9front : Plan 9
+9ATOM	5	plan9	PLAN9	9atom : Plan 9
+HARVEY	8	plan9	PLAN9	Harvey OS
+JEHANNE	9	plan9	9FRONT	Jehanne OS : 9front, Harvey OS
+P9P	6	misc	PLAN9	Plan 9 from User Space
+9VX	9	misc	PLAN9	9vx
+AKAROS	11	inferno		Akaros
+NIX	7	plan9	PLAN9	NIX
+NODE9	10	inferno		Node9
+PLANB	7	plan9	PLAN9	Plan B : Plan 9
+HPC	9	plan9		HPC
+R9	10	plan9	HARVEY	R9 : Harvey OS
+PURG	11	inferno	INFERNO	Purgatorio : Inferno
+OCTO	11	inferno	PLANB	Octopus : Plan B

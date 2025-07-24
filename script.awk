@@ -6,83 +6,6 @@ function getx(year) {
 
 BEGIN {
 	debug = ENVIRON["debug"]
-
-	# which row per system
-	height["HIST"] = 1
-	height["PLAN9"] = 2
-	height["INFERNO"] = 3
-	height["9LEGACY"] = 4
-	height["9FRONT"] = 3
-	height["9ATOM"] = 5
-	height["HARVEY"] = 8
-	height["JEHANNE"] = 9
-	height["P9P"] = 6
-	height["9VX"] = 9
-	height["AKAROS"] = 11
-	height["NIX"] = 7
-	height["NODE9"] = 10
-	height["PLANB"] = 7
-	height["HPC"] = 9
-	height["R9"] = 10
-	height["PURG"] = 11
-	height["OCTO"] = 11
-	
-	# classes, used for color coding
-	class["HIST"] = ""
-	class["PLAN9"] = "plan9"
-	class["INFERNO"] = "inferno"
-	class["9LEGACY"] = "plan9"
-	class["9FRONT"] = "plan9"
-	class["9ATOM"] = "plan9"
-	class["HARVEY"] = "plan9"
-	class["JEHANNE"] = "plan9"
-	class["P9P"] = "misc"
-	class["9VX"] = "misc"
-	class["AKAROS"] = "inferno"
-	class["NIX"] = "plan9"
-	class["NODE9"] = "inferno"
-	class["PLANB"] = "plan9"
-	class["HPC"] = "plan9"
-	class["R9"] = "plan9"
-	class["PURG"] = "inferno"
-	class["OCTO"] = "inferno"
-	
-	# label per system
-	label["HIST"] = "General History"
-	label["PLAN9"] = "Plan 9"
-	label["INFERNO"] = "Inferno"
-	label["9LEGACY"] = "9legacy : Plan 9"
-	label["9FRONT"] = "9front : Plan 9"
-	label["9ATOM"] = "9atom : Plan 9"
-	label["HARVEY"] = "Harvey OS"
-	label["JEHANNE"] = "Jehanne OS : 9front, Harvey OS"
-	label["P9P"] = "Plan 9 from User Space"
-	label["9VX"] = "9vx"
-	label["AKAROS"] = "Akaros"
-	label["NIX"] = "NIX"
-	label["NODE9"] = "Node9"
-	label["PLANB"] = "Plan B : Plan 9"
-	label["HPC"] = "HPC"
-	label["R9"] = "R9 : Harvey OS"
-	label["PURG"] = "Purgatorio : Inferno"
-	label["OCTO"] = "Octopus : Plan B"
-	
-	parent["INFERNO"] = "PLAN9"
-	parent["9LEGACY"] = "PLAN9"
-	parent["9FRONT"] = "PLAN9"
-	parent["9ATOM"] = "PLAN9"
-	parent["HARVEY"] = "PLAN9"
-	parent["JEHANNE"] = "9FRONT"
-	parent["P9P"] = "PLAN9"
-	parent["9VX"] = "PLAN9"
-	parent["AKAROS"] = ""
-	parent["NIX"] = "PLAN9"
-	parent["NODE9"] = ""
-	parent["PLANB"] = "PLAN9"
-	parent["HPC"] = ""
-	parent["R9"] = "HARVEY"
-	parent["PURG"] = "INFERNO"
-	parent["OCTO"] = "PLANB"
 	
 	# additional parameters
 	stepheight = 80  # vertical line offset
@@ -108,9 +31,7 @@ BEGIN {
 	for (i in height)
 		firstx[i] = -1
 	
-	maxheight = 0
-	for (i in height)
-		maxheight = height[i] > maxheight ? height[i] : maxheight
+	# maxheight = ENVIRON["maxheight"]
 	
 	range = size - xoffset - xsave  # size of the graph, minus offsets
 
@@ -161,6 +82,17 @@ $1 == "RANGE" {
 	max[$2] = $4
 	if (debug)
 		printf "  <!-- range %s %s %s -->\n", $2, $3, $4
+	next
+}
+
+$1 == "CONF" {
+	type = $2
+	height[type] = $3
+	class[type] = $4
+	parent[type] = $5
+	label[type] = $6
+	lastx[type] = -1
+	firstx[type] = -1
 	next
 }
 
