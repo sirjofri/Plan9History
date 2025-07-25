@@ -34,12 +34,13 @@ BEGIN {
 	print "  <desc>Timeline of Plan 9 systems and their children</desc>"
 	print "  <style type=\"text/css\"><![CDATA["
 	print ".ibox { display: block; fill: transparent; stroke: none; outline: dashed 1px #0000ff55; }"
+	print ".interactive { cursor: pointer; }"
 	print ".stepgroup line { stroke-dasharray: 15; stroke: #00000022; }"
 	print ".inheritance { fill: none !important; stroke-dasharray: 5; stroke: #00000077; }"
 	print ".plan9 { stroke: blue; fill: blue; }"
 	print ".inferno { stroke: green; fill: green; }"
 	print ".misc { stroke: brown; fill: brown; }"
-	print "text { font-family: sans-serif; }"
+	print "text { font-family: sans-serif; cursor: default; }"
 	print "  ]]></style>"
 	print "  <script><![CDATA["
 	print "function openinfo(i) {"
@@ -50,7 +51,10 @@ BEGIN {
 	print "    el.style.display = \"none\";"
 	print "  console.log(\"clicked\");"
 	print "}"
+	printf "stepheight = %d;", stepheight
+	print "rows = Array();"
 	print "  ]]></script>"
+	printf "  <rect x=\"0\" y=\"0\" width=\"%d\" height=\"%d\" rx=\"5\" ry=\"5\" fill=\"white\" />\n", size, yoffset+titlefontsize+maxheight*stepheight
 	printf "  <text x=\"%d\" y=\"%d\" font-size=\"%d\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Plan 9 Timeline</text>", size/2, titlefontsize, titlefontsize
 	
 	print "  <g class=\"stepgroup\">"
@@ -89,6 +93,11 @@ $1 == "CONF" {
 	next
 }
 
+$1 == "NUM" {
+	numrows = $2
+	next
+}
+
 function printline(text, step, h, line) {
 	if (text ~ /^;$/)
 		return
@@ -100,7 +109,7 @@ function dline(x1, y1, x2, y2, cls) {
 }
 
 function dibox(x, y, id) {
-	printf "    <rect width=\"%d\" height=\"%d\" x=\"%d\" y=\"%d\" class=\"ibox\" onclick=\"openinfo('%s')\" infobox=\"%s\" />\n", iboxsize, iboxsize, x-iboxsize/2+xoffset, y-iboxsize/2, id, id
+	printf "    <rect width=\"%d\" height=\"%d\" x=\"%d\" y=\"%d\" class=\"ibox interactive\" onclick=\"openinfo('%s')\" infobox=\"%s\" />\n", iboxsize, iboxsize, x-iboxsize/2+xoffset, y-iboxsize, id, id
 }
 
 function dinfo(x, y, id, text) {
@@ -123,6 +132,8 @@ function dinfo(x, y, id, text) {
 	tx = currentstep + xoffset
 	cls = class[type]
 	
+	printf "  <g class=\"%s\">", type
+	
 	# draw inheritance line
 	parenth = height[parent[type]]
 	if (lx < 0 && parenth > 0) {
@@ -143,7 +154,7 @@ function dinfo(x, y, id, text) {
 		}
 		mx += xoffset
 		cpx = (mx + tx) * 0.5
-		printf "  <path d=\"M %d %d Q %d %d %d %d\" class=\"inheritance %s\" />\n", tx, h, cpx, cpy, mx, tpy, cls
+		printf "  <path d=\"M %d %d Q %d %d %d %d\" class=\"inheritance %s %s\" />\n", tx, h, cpx, cpy, mx, tpy, cls, parent[type]
 		if (debug)
 			printf "  <circle cx=\"%d\" cy=\"%d\" r=\"4\" />\n", cpx, cpy
 	}
@@ -165,8 +176,18 @@ function dinfo(x, y, id, text) {
 	if (lx < 0) {
 		# print line label and stop line
 		dline(tx, h, tx, h+stopheight, cls)
-		printf "    <text x=\"%d\" y=\"%d\" stroke-width=\"0\" text-anchor=\"start\" font-weight=\"bold\" class=\"%s\">%s</text>\n", currentstep+xoffset, h-labeloffset+lineheight, cls, label[type]
+		printf "    <text x=\"%d\" y=\"%d\" stroke-width=\"0\" text-anchor=\"start\" font-weight=\"bold\" class=\"%s interactive\" onclick=\"collapse('%s')\">%s</text>\n", currentstep+xoffset, h-labeloffset+lineheight, cls, type, label[type]
+		print "    <script type=\"text/javascript\"><![CDATA["
+		printf "rows[\"%s\"] = %d;\n", type, 1
+		print "    ]]></script>"
 		firstx[type] = currentstep
+	}
+	
+	print "  </g>"
+	
+	if (lx < 0) {
+		printf "  <text stroke-width=\"0\" text-anchor=\"start\" font-weight=\"bold\" id=\"%s\" onclick=\"collapse('%s')\" x=\"%d\" y=\"%d\" class=\"%s interactive\">%s</text>\n", type, type, xoffset, maxheight*stepheight - currentn*(lineheight+2), cls, label[type]
+		currentn++;
 	}
 	
 	lastx[type] = currentstep
@@ -176,5 +197,24 @@ END {
 	print "  </g>"
 	"git rev-parse --short HEAD" | getline hash; close("git rev-parse --short HEAD");
 	printf "  <text x=\"%d\" y=\"%d\" text-anchor=\"baseline\" font-size=\"12\">%s%s (%s)</text>\n", xoffset, yoffset+titlefontsize+maxheight*stepheight, "Build: ", strftime("%Y-%m-%d"), hash
+	
+	print "<script type=\"text/javascript\"><![CDATA["
+	print "function collapse(id) {"
+	print "  els = document.getElementsByClassName(id);"
+	print "  if (rows[id]) { // row visible"
+	print "    rows[id] = 0;"
+	print "    document.getElementById(id).style.opacity = \"0.4\";"
+	print "    for (i = 0; i < els.length; i++) {"
+	print "      els[i].style.display = \"none\";"
+	print "    }"
+	print "  } else { // row invisible"
+	print "    rows[id] = 1;"
+	print "    document.getElementById(id).style.opacity = \"1.0\";"
+	print "    for (i = 0; i < els.length; i++) {"
+	print "      els[i].style.display = \"block\";"
+	print "    }"
+	print "  }"
+	print "}"
+	print "]]></script>"
 	print "</svg>"
 }
