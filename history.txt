@@ -42,7 +42,8 @@ P9P	2025	;	Active
 NIX	2020	Nov. 21	Mark II and IV on github
 NIX	2012	;	Papers	Analyzing manycore OS design aspects in NIX; Nix: a case for a manycore system for cloud computing
 NIX	2011	;	Paper	High Performance Cloud Computing is Nix.
-9ATOM	2020	July 2	Github Snapshot	thanks, henesy
+9ATOM	2009	;	Experimental iso
+9ATOM	2016	;	Last 9atom nix kernel
 HARVEY	2023	April 22	archived	github
 HARVEY	2022	April 18	last commit	github
 HARVEY	2010	July 27	first commit	github
