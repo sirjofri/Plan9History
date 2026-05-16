@@ -17,7 +17,7 @@ BEGIN {
 	stopheight = 5   # height of the small vertical event lines
 	
 	scalefrom = 1987 # first date of events
-	scaleto = 2025   # last date of events
+	scaleto = 2026   # last date of events
 	size = 2000      # size of the graph
 	
 	titlefontsize = 15

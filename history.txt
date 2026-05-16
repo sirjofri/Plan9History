@@ -4,7 +4,7 @@ HIST	2006	Dec. 1	Alcatel-Lucent S.A.	Alcatel SA acquired Lucent
 HIST	2014	;	Alcatel-Lucent split
 HIST	2016	;	BL @ Nokia	Nokia acquired Alcatel-Lucent
 HIST	2021	March	P9F	Plan 9 Foundation
-HIST	2025	;	Active
+HIST	2026	;	Active
 PLAN9	1987	;	Start Dev.	Development start
 PLAN9	1989	;	Use at BL	Productive use at Bell Labs
 PLAN9	1992	;	1st ed.	Exclusive to Universities (BL)
@@ -36,9 +36,10 @@ INFERNO	2004	;	4th ed.	Open Source, 9P2000
 9FRONT	2025	;	3 Rel.
 9LEGACY	2010	Summer	Birth
 9LEGACY	2011	June	Website
-9LEGACY	2025	;	Active
+9LEGACY	2016	March	64-bit 9k kernel
+9LEGACY	2026	;	Active
 P9P	2003	Sept. 30	First git commit (rsc)
-P9P	2025	;	Active
+P9P	2026	;	Active
 NIX	2020	Nov. 21	Mark II and IV on github
 NIX	2012	;	Papers	Analyzing manycore OS design aspects in NIX; Nix: a case for a manycore system for cloud computing
 NIX	2011	;	Paper	High Performance Cloud Computing is Nix.
