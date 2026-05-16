@@ -14,11 +14,22 @@ PLAN9	2002	;	4th ed.
 PLAN9	2014	February	GPL
 PLAN9	2015	"early"	final release
 PLAN9	2021	March	P9F, MIT	Plan 9 Foundation
+PLAN9	2025	Oct. 28	Trademark	Registered trademark of P9F
 INFERNO	1996	;	Leak/Beta	Leaked by Dennis Ritchie
 INFERNO	1997	May	1.0	First Inferno release
 INFERNO	1999	July	2nd ed.
 INFERNO	2001	June	3rd ed.
 INFERNO	2004	;	4th ed.	Open Source, 9P2000
+9K	2005	;	Jim McKie
+9K	2013	;	Last 9k
+9K	2014	;	Geoff's 9k
+9K	2020	December	RISC-V port	Polarfire Icicle port
+9K	2026	;	Active
+9PI	2012	;	Raspberry Pi port
+9PI	2015	;	Pi 2
+9PI	2018	;	Pi 3B
+9PI	2019	;	Pi 4	arm32 port
+9PI	2026	;	Pi 5	arm64 port
 9FRONT	2011	;	2 Rel.
 9FRONT	2012	;	16 Rel.
 9FRONT	2013	;	20 Rel.
