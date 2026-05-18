@@ -27,7 +27,8 @@ INFERNO	2004	;	4th ed.	Open Source, 9P2000
 9K	2026	;	Active
 9PI	2012	;	Raspberry Pi port
 9PI	2015	;	Pi 2
-9PI	2018	;	Pi 3B
+9PI	2016	;	Pi 3, Zero
+9PI	2018	;	Pi 3B+
 9PI	2019	;	Pi 4	arm32 port
 9PI	2026	;	Pi 5	arm64 port
 9FRONT	2011	;	2 Rel.
